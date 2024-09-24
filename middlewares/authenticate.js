@@ -47,3 +47,14 @@ exports.AuthenticateApi = async (req, res, next) => {
     return res.status(401).json({ status: false, message: err.message });
   }
 };
+
+exports.AuthenticateAdminApi = async (req, res, next) => {
+  try {
+    if (!req?.user?.is_admin) {
+      return res.status(403).json({ status: false, message: "You dont have access this route!" });
+    }
+    return next();
+  } catch (err) {
+    return res.status(401).json({ status: false, message: err.message });
+  }
+};

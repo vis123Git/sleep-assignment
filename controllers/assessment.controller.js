@@ -35,7 +35,7 @@ exports.start_answering = async function (req, res) {
   try {
     const { user_id } = req.tokenData;
     const {assessment_id, } = req.params
-    const {answer, question_id} = req.params
+    const {answer, question_id} = req.body
 
     if (!assessment_id) return res.status(400).json({ status: false, message: "Assessment id is required!" });
     if (!question_id) return res.status(400).json({ status: false, message: "Question id is required!" });
@@ -45,6 +45,11 @@ exports.start_answering = async function (req, res) {
     const assessment_exists = await find_one_assessment(assessment_id);
     if (!assessment_exists) return res.status(400).json({ status: false, message: "Assessment not found!!" });
 
+    assessment_exists.answers.push({
+      question: question._id,
+      answer: req.body.answer
+    });
+    await assessment_exists.save()
 
   } catch (error) {
     console.log("error===", error);
