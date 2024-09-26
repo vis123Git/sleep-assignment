@@ -13,7 +13,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000/api", // Adjust the URL based on your server
+        url: "https://sleep-assignment.onrender.com/api-doc", // Adjust the URL based on your server
       },
     ],
   },
