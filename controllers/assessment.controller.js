@@ -11,6 +11,8 @@ exports.start_assessment = async function (req, res) {
     if (!user_exists) return res.status(400).json({ status: false, message: "User not found!!" });
 
     let new_assessment = await find_one_assessment({ user_id });
+    if (new_assessment && new_assessment.is_completed) return res.status(200).json({ status: true, message: "Great! You have already submitted assessment of your sleeping schedule!" });
+    
     if (!new_assessment) {
       new_assessment = await save_new_assessment({ user_id });
       if (!new_assessment) return res.status(400).json({ status: false, message: "Assessment failed!" });

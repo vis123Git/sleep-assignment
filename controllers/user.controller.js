@@ -26,7 +26,7 @@ exports.signup = async function (req, res) {
 
     // SAVE THE USER TOKEN TO THE DATABASE
     const updatetoken = await update_one_user(new_user._id, { token });
-    return res.status(200).json({ status: true, data: new_user, message: "Registration successfull!" });
+    return res.status(201).json({ status: true, data: new_user, message: "Registration successfull!" });
   } catch (error) {
     console.log("error===", error);
     return res.status(400).json({ status: false, message: "Something went wrong!" });

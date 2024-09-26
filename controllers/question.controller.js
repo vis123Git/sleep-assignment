@@ -14,7 +14,7 @@ exports.add_question = async function (req, res) {
     const add_que = await save_new_question({ text: text.trim(), type, options, order });
     if (!add_que) return res.status(400).json({ status: false, message: "Unable to add question!!" });
 
-    return res.status(200).json({ status: true, data: add_que, message: "Question added successfull!" });
+    return res.status(201).json({ status: true, data: add_que,  message: "Question added successfully!" });
   } catch (error) {
     console.log("error===", error);
     return res.status(400).json({ status: false, message: "Something went wrong!" });
