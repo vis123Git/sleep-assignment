@@ -25,36 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-const whitelist = process.env.WHITELIST
-  ? process.env.WHITELIST.split(",").map((item) => item.trim().replace(/\/$/, ""))
-  : [];
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version, X-File-Name, user-access-token, authorization");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-
-  const origin = req.header("Origin") ? req.header("Origin").replace(/\/$/, "") : null;
-  const referer = req.header("Referer") ? new URL(req.header("Referer")).origin.replace(/\/$/, "") : null;
-
-  // Bypass Origin/Referer check for local development or same-origin requests
-  if (!origin && !referer && process.env.NODE_ENV === "development") {
-    return next();
-  }
-
-  // Handle OPTIONS preflight requests
-  if (req.method === "OPTIONS") {
-    return res.status(200).json({});
-  }
-
-  // Normalize the origin/referer comparison to avoid trailing slash issues
-  if ((origin && whitelist.includes(origin)) || (referer && whitelist.includes(referer))) {
-    return next();
-  } else {
-    return res.status(400).json("App UnAuthorized");
-  }
-});
-
 app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 
