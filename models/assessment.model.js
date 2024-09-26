@@ -2,9 +2,10 @@ const { Schema, model, Types } = require("mongoose");
 
 const assessment_schema = new Schema(
   {
-    userId: { type: Types.ObjectId, ref: "user", required: true },
+    user_id: { type: Types.ObjectId, ref: "user", required: true },
     startedAt: { type: Date, default: Date.now },
     completedAt: { type: Date },
+    is_completed: { type: Boolean, default: false },
     score: { type: Number },
     answers: [
       {
